@@ -18,15 +18,15 @@ public class RoundParser {
     private static final int HIT_START_INDEX = 4;
     private static final int OUTCOME_START_INDEX = 14;
 
-    public List<Round> parseRounds(final String fileName) {
-        if (Objects.isNull(fileName)) {
+    public List<Round> parseRounds(final String filePath) {
+        if (Objects.isNull(filePath)) {
             throw new IllegalArgumentException("filename is null");
         }
 
         final List<Round> rounds = new ArrayList<>();
         String[] nextLine;
         try {
-            final CSVReader reader = new CSVReader(new FileReader(fileName));
+            final CSVReader reader = new CSVReader(new FileReader(filePath));
             boolean readingFinished = false;
             while (!readingFinished) {
                 try {
