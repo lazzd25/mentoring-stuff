@@ -20,8 +20,7 @@ public class OrderManagerImpl implements OrderManager {
     }
 
     @Override
-    public void createOrder(final Client client, final Dish dish) {
-        System.out.println("createorder");
+    public void createOrder(final Client client, final Dish dish) {        
         if (Objects.isNull(client)) {
             throw new IllegalArgumentException("client is null");
         }
@@ -30,8 +29,7 @@ public class OrderManagerImpl implements OrderManager {
         }
 
         orderObserver.registerOrderListener(client);
-        try {
-            System.out.println("waiting to add");
+        try {            
             orders.put(new Order(client.getClientId(), dish));
         }
         catch (final InterruptedException e) {

@@ -47,10 +47,8 @@ public class FoodBot implements Runnable {
 
         while (condition) {
             try {
-                final Order order = orders.take();
-                System.out.println("got order");
+                final Order order = orders.take();                
                 Thread.sleep(WAIT_PERIOD);
-                System.out.println("return order");
                 returnOrders.put(new ReturnOrder(order.getClientId(), createDish(order.getOrderedDish())));
             }
             catch (final InterruptedException e) {
