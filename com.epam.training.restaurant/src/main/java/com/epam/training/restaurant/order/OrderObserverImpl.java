@@ -35,10 +35,7 @@ public class OrderObserverImpl implements OrderObserver {
                         while (isObserving) {
                             try {
                                 final Optional<ReturnOrder> returnOrder = Optional.ofNullable(returnOrders.take());
-                                System.out.println("got return");
-                                if (returnOrder.isPresent()) {
-                                    updateListeners(returnOrder.get().getClientId(), returnOrder.get().getConsumable());
-                                }
+                                returnOrder.ifPresent(order -> updateListeners(order.getClientId(), order.getConsumable()));
                             }
                             catch (final InterruptedException e) {
                                 isObserving = false;

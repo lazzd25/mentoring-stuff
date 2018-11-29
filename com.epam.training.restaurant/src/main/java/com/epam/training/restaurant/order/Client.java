@@ -18,7 +18,6 @@ public class Client implements OrderListener {
 
     @Override
     public void onOrderReady(final int clientId, final Consumable consumable) {
-        System.out.println("client order");
         if (this.clientId == clientId) {
             System.out.println("happiness before:" + happiness);
             happiness = consumable.consume(happiness);
