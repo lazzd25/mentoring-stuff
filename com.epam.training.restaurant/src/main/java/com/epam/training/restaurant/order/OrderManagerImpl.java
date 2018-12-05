@@ -6,21 +6,21 @@ import java.util.concurrent.BlockingQueue;
 public class OrderManagerImpl implements OrderManager {
 
     private final BlockingQueue<Order> orders;
-    private final OrderObserver orderObserver;
+    private final OrderDistributor distributor;
 
-    public OrderManagerImpl(final BlockingQueue<Order> orders, final OrderObserver orderObserver) {
+    public OrderManagerImpl(final BlockingQueue<Order> orders, final OrderDistributor distributor) {
         if (Objects.isNull(orders)) {
             throw new IllegalArgumentException("orders is null");
         }
-        if (Objects.isNull(orderObserver)) {
-            throw new IllegalArgumentException("orderObserver is null");
+        if (Objects.isNull(distributor)) {
+            throw new IllegalArgumentException("distributor is null");
         }
         this.orders = orders;
-        this.orderObserver = orderObserver;
+        this.distributor = distributor;
     }
 
     @Override
-    public void createOrder(final Client client, final Dish dish) {        
+    public void createOrder(final Client client, final Dish dish) {
         if (Objects.isNull(client)) {
             throw new IllegalArgumentException("client is null");
         }
@@ -28,16 +28,13 @@ public class OrderManagerImpl implements OrderManager {
             throw new IllegalArgumentException("dish is null");
         }
 
-        orderObserver.registerOrderListener(client);
-        try {            
+        distributor.addObserver(client);
+        try {
             orders.put(new Order(client.getClientId(), dish));
         }
         catch (final InterruptedException e) {
             e.printStackTrace();
             return;
-        }
-        if (!orderObserver.isObserving()) {
-            orderObserver.startObservation();
         }
 
     }

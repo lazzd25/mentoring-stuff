@@ -1,6 +1,6 @@
 package com.epam.training.restaurant.order;
 
-import com.epam.training.restaurant.consumable.Consumable;
+import java.util.Objects;
 
 public class Client implements OrderListener {
 
@@ -17,12 +17,16 @@ public class Client implements OrderListener {
     }
 
     @Override
-    public void onOrderReady(final int clientId, final Consumable consumable) {
-        if (this.clientId == clientId) {
+    public void update(final ReturnOrder order) {
+        if (isOrderValid(order)) {
             System.out.println("happiness before:" + happiness);
-            happiness = consumable.consume(happiness);
+            happiness = order.getConsumable().consume(happiness);
             System.out.println("happiness after:" + happiness);
         }
 
+    }
+
+    private boolean isOrderValid(final ReturnOrder order) {
+        return Objects.nonNull(order) && Objects.nonNull(order.getConsumable()) && clientId == order.getClientId();
     }
 }
