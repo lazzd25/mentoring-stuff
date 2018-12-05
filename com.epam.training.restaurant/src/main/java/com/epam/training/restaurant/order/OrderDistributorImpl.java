@@ -8,7 +8,7 @@ public class OrderDistributorImpl implements OrderDistributor {
 
     private final Collection<OrderListener> listeners = new ArrayList<>();
 
-    private synchronized void updateListeners(final ReturnOrder order) {
+    private void updateListeners(final ReturnOrder order) {
         listeners.stream().forEach(listener -> listener.update(order));
     }
 
@@ -29,7 +29,7 @@ public class OrderDistributorImpl implements OrderDistributor {
     }
 
     @Override
-    public void setReturnOrder(final ReturnOrder returnOrder) {
+    public synchronized void setReturnOrder(final ReturnOrder returnOrder) {
         if (Objects.nonNull(returnOrder)) {
             updateListeners(returnOrder);
         }
